@@ -17,17 +17,27 @@ const routes = [
     component: Random
   },
   {
-    path: "/select",
+    path: "/select/:id",
     name: "Select",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Select.vue")
+  },
+  {
+    path: "/training/:id",
+    name: "Training",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "training" */ "../views/Training.vue")
   }
 ]
 
 const router = new VueRouter({
+  mode: "history",
   routes
 })
 

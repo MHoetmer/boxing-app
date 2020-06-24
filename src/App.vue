@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/random">Random</router-link> |
-      <router-link to="/select">Select</router-link>
+      <router-link to="/random">Random</router-link>|
+      <router-link to="/select/030">Select</router-link>
     </div>
     <router-view />
   </div>

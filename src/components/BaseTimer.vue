@@ -136,10 +136,6 @@ export default {
       }
     },
     currentSet(newValue) {
-      console.log("newValue", newValue)
-      if (newValue == 0) {
-        console.log("focus 0", newValue)
-      }
       if (newValue == 1) {
         this.firstSet = false
         this.secondSet = true
@@ -158,14 +154,8 @@ export default {
       }
     }
   },
-
-  mounted() {
-    console.log("set", this.set)
-  },
-
   methods: {
     onTimesUp() {
-      console.log("times up")
       clearInterval(this.timerInterval)
       this.start = 3
       this.timePassed = 0
@@ -175,20 +165,16 @@ export default {
       }
       this.startTimer()
     },
-
     startTimer() {
       this.start = 2
-      console.log("starting")
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000)
     },
     pauseTimer() {
       this.start = 1
-      console.log("pauzing")
       clearInterval(this.timerInterval)
     },
     resetTimer() {
       this.start = 2
-      console.log("restarting")
       this.timePassed = 0
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000)
     },
@@ -201,7 +187,6 @@ export default {
     },
     removeExercise(input, e) {
       this.set.splice(this.set.indexOf(e), 1)
-      console.log("rm", input, e)
     }
   }
 }

@@ -17,26 +17,20 @@ export default {
   },
   data() {
     return {
-      training: [],
-      options: [
-        { name: "Jab" },
-        { name: "Uppercut" },
-        { name: "Cross" },
-        { name: "Hook" },
-        { name: "Break" }
-      ]
+      training: []
     }
   },
   methods: {
     generateTraining(nr) {
       for (var i = 0; i < nr; i++) {
         var time = Math.floor(Math.random() * (6 - 1 + 1) + 1) * 10
-        console.log("random time", time)
-        this.training.push({ time: time, title: this.options[i].name })
+        this.training.push({
+          time: time,
+          title: this.$store.state.options[i].name
+        })
       }
     },
     removeTraining() {
-      this.$forceUpdate()
       this.training = []
     }
   }
