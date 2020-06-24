@@ -6,6 +6,7 @@ import vuetify from "./plugins/vuetify"
 
 Vue.config.productionTip = false
 Vue.config.silent = true
+Vue.config.devtools = true
 
 new Vue({
   router,

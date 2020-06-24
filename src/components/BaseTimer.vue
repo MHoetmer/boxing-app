@@ -1,39 +1,52 @@
 <template>
   <div>
-    <p v-bind:class="{ active: firstSet }">{{ this.set[0].time }} sec {{ this.set[0].title }}</p>
-    <p v-bind:class="{ active: secondSet }">{{ this.set[1].time }} sec {{ this.set[1].title }}</p>
-    <p v-bind:class="{ active: thirdSet }">{{ this.set[2].time }} sec {{ this.set[2].title }}</p>
-    <p v-bind:class="{ active: fourthSet }">{{ this.set[3].time }} sec {{ this.set[3].title }}</p>
-    <p v-bind:class="{ active: fifthSet }">{{ this.set[4].time }} sec {{ this.set[4].title }}</p>
-    <div class="base-timer container">
-      <div class="overlay">
-        <button v-if="start == 1" v-on:click="startTimer">
-          <v-icon size="200">mdi-play</v-icon>
-        </button>
-        <button v-if="start == 2" v-on:click="pauseTimer">
-          <v-icon size="200">mdi-pause</v-icon>
-        </button>
-      </div>
-      <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g class="base-timer__circle">
-          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
-          <path
-            v-bind:stroke-dasharray="circleDasharray"
-            class="base-timer__path-remaining"
-            v-bind:class="remainingPathColor"
-            d="
+    <v-app>
+      <v-item-group multiple>
+        <v-item v-for="e in set" :key="e.title" v-slot:default="{ active }" class="e-container">
+          <v-chip
+            @click:close="i => removeExercise(i, e)"
+            close
+            color="primary"
+            :input-value="active"
+            outlined
+            :class="{ active: getClass(e) }"
+          >
+            <v-avatar left :class="blue">{{ e.time }}</v-avatar>
+            {{ e.title }}
+          </v-chip>
+        </v-item>
+      </v-item-group>
+
+      <div class="base-timer container">
+        <div class="overlay">
+          <button v-if="start == 1" v-on:click="startTimer">
+            <v-icon size="200">mdi-play</v-icon>
+          </button>
+          <button v-if="start == 2" v-on:click="pauseTimer">
+            <v-icon size="200">mdi-pause</v-icon>
+          </button>
+        </div>
+        <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <g class="base-timer__circle">
+            <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
+            <path
+              v-bind:stroke-dasharray="circleDasharray"
+              class="base-timer__path-remaining"
+              v-bind:class="remainingPathColor"
+              d="
             M 50, 50
             m -45, 0
             a 45,45 0 1,0 90,0
             a 45,45 0 1,0 -90,0
           "
-          />
-        </g>
-      </svg>
-      <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+            />
+          </g>
+        </svg>
+        <span class="base-timer__label">{{ formattedTimeLeft }}</span>
 
-      <p>{{ this.set[this.currentSet].title }}</p>
-    </div>
+        <p>{{ this.set[this.currentSet].title }}</p>
+      </div>
+    </v-app>
   </div>
 </template>
 
@@ -178,6 +191,17 @@ export default {
       console.log("restarting")
       this.timePassed = 0
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000)
+    },
+    getClass(i) {
+      if (this.set[this.currentSet] == i) {
+        return true
+      } else {
+        return false
+      }
+    },
+    removeExercise(input, e) {
+      this.set.splice(this.set.indexOf(e), 1)
+      console.log("rm", input, e)
     }
   }
 }
@@ -185,11 +209,15 @@ export default {
 
 <style scoped lang="scss">
 .container {
-  margin: auto;
-  width: 50%;
+  margin-top: 5%;
+  width: 10%;
 }
-p.active {
+.active {
   font-weight: bold;
+}
+
+.e-container {
+  margin: 5px;
 }
 .base-timer {
   position: relative;
@@ -244,8 +272,8 @@ p.active {
   }
   .overlay {
     position: fixed;
-    top: 23%;
-    margin-left: 3%;
+    top: 27%;
+    margin-left: 3.5%;
     size: 300%;
     z-index: 2;
   }

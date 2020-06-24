@@ -1,17 +1,10 @@
 <template>
-  <div class="home">
-    <Boxing />
+  <div class="about">
+    <h1>
+      Boxing App Challenge
+      <v-icon>mdi-boxing-glove</v-icon>
+    </h1>
+    <br />
+    <p>Criteria:</p>
   </div>
 </template>
-
-<script>
-// @ is an alias to /src
-import Boxing from "@/components/Boxing.vue"
-
-export default {
-  name: "Home",
-  components: {
-    Boxing
-  }
-}
-</script>
