@@ -11,19 +11,21 @@
           <v-chip
             @click:close="i => removeExercise(i, e)"
             close
-            :color="getClass(e.name)"
+            :color="getTypedClass(e.name, 0)"
             :input-value="active"
-            outlined
+            :outlined="!getCurrentClass(e)"
             :class="{ active: getCurrentClass(e) }"
           >
-            <v-avatar left :class="blue">{{ e.time }}</v-avatar>
+            <v-avatar left :class="getTypedClass(e, 1)">
+              <span :class="getTypedClass(e, 2)">{{ e.time }}</span>
+            </v-avatar>
             {{ e.name }}
           </v-chip>
         </v-item>
       </v-item-group>
 
       <div class="base-timer container">
-        <div class="overlay">
+        <div :class="classObject">
           <button v-if="start == 1" v-on:click="startTimer">
             <v-icon size="200">mdi-play</v-icon>
           </button>
@@ -80,13 +82,24 @@ export default {
       timePassed: 0,
       timerInterval: null,
       start: 1, //decides if button is a play or pause action
-      currentSet: 0 //keeps track of which icon to highlight
+      currentSet: 0 //keeps track of which icon to highlight,
     }
   },
-  created: function() {
-    console.log("created.BaseTimer", this.$store.state.training)
-  },
+  created: function() {},
   computed: {
+    classObject() {
+      if (this.$route.path.includes("training")) {
+        return {
+          "training-path": true,
+          overlay: true
+        }
+      } else
+        return {
+          "training-path": false,
+          overlay: true
+        }
+    },
+
     circleDasharray() {
       return `${(this.timeFraction * FULL_DASH_ARRAY).toFixed(0)} 283`
     },
@@ -177,12 +190,30 @@ export default {
       this.timePassed = 0
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000)
     },
-    getClass(e) {
-      if (e == "Break") {
-        return "grey"
-      } else {
-        return "primary"
+    getTypedClass(i, type) {
+      if (type == 2) {
+        //text
+        if (this.$store.state.training[this.currentSet] == i) {
+          return "blue--text"
+        } else return "white--text"
+      } else if (type == 1) {
+        //avatar
+        if (this.$store.state.training[this.currentSet] == i) {
+          return "white"
+        } else if (i.name == "Break") {
+          return "grey"
+        } else {
+          return "primary"
+        }
+      } else if (type == 0) {
+        //normal break
+        if (i == "Break") {
+          return "grey"
+        } else {
+          return "primary"
+        }
       }
+      return "white"
     },
     getCurrentClass(i) {
       if (this.$store.state.training[this.currentSet] == i) {
@@ -266,10 +297,17 @@ export default {
   }
   .overlay {
     position: fixed;
-    top: 27%;
-    margin-left: 3.5%;
+    top: 31%;
+    margin-left: 2.5%;
     size: 300%;
     z-index: 2;
   }
+  .training-path {
+    top: 26%;
+  }
+}
+.time {
+  margin-left: 8px;
+  margin-top: 18px;
 }
 </style>

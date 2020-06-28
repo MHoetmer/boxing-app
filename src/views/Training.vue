@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>Training</p>
     <BaseTimer v-bind:set="this.convertFromUrl()" />
   </div>
 </template>

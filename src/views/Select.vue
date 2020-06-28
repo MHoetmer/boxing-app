@@ -1,5 +1,5 @@
 <template>
-  <div class="boxing">
+  <div>
     <v-app>
       <span v-for="o in this.$store.state.options" :key="o.name">
         <div>
@@ -20,22 +20,23 @@
             >
               <v-avatar left :class="getClass(e)">
                 <v-select
+                  class="time"
                   :items="$store.state.times"
                   chips
                   :label="e.time"
                   @input="i => addTime(i, e)"
-                >{{ e.time }}</v-select>
+                  :key="e.time"
+                ></v-select>
               </v-avatar>
               {{ e.name }}
             </v-chip>
           </v-item>
         </v-item-group>
-      </v-row>
-      <div>
-        <router-link :to="getUrl()">
-          <v-btn class="start" color="orange" @click="startExercise">Start</v-btn>
+
+        <router-link :to="getUrl()" class="start">
+          <v-btn color="orange" @click="startExercise">Start</v-btn>
         </router-link>
-      </div>
+      </v-row>
     </v-app>
   </div>
 </template>
@@ -137,6 +138,14 @@ export default {
 }
 
 .start {
-  margin-bottom: 300px;
+  position: fixed;
+  padding-right: 20px;
+  margin-left: 50%;
+  margin-top: 200px;
+  text-decoration: none;
+}
+.time {
+  margin-left: 7px;
+  margin-top: 19px;
 }
 </style>
