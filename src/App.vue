@@ -1,11 +1,32 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/random">Random</router-link>|
-      <router-link to="/select/030">Select</router-link>
+  <v-app id="inspire">
+    <div id="app">
+      <v-card>
+        <v-tabs
+          slider-color="rgb(255, 152, 0)"
+          text-color="white"
+          background-color="white"
+          centered
+          flat
+          style="margin-bottom:30px"
+          class="elevation-0"
+        >
+          <v-tab>
+            <router-link class="menu" to="/random">
+              <a>Random</a>
+            </router-link>&nbsp;
+          </v-tab>
+          <v-tab>
+            <router-link class="menu" to="/select/030">
+              <a>Select</a>
+            </router-link>
+          </v-tab>
+        </v-tabs>
+      </v-card>
+
+      <router-view />
     </div>
-    <router-view />
-  </div>
+  </v-app>
 </template>
 
 <style>
@@ -26,7 +47,20 @@
   color: #2c3e50;
 }
 
+.a {
+  color: rgb(26, 117, 210);
+}
+
 #nav a.router-link-exact-active {
-  color: #42b983;
+  font-weight: bold;
+}
+.menu {
+  text-decoration: none;
+  color: red;
+}
+.v-tabs,
+.v-card,
+.v-app {
+  box-shadow: none !important;
 }
 </style>

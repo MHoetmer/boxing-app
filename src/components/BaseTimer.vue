@@ -90,12 +90,10 @@ export default {
     classObject() {
       if (this.$route.path.includes("training")) {
         return {
-          "training-path": true,
           overlay: true
         }
       } else
         return {
-          "training-path": false,
           overlay: true
         }
     },
@@ -297,13 +295,8 @@ export default {
   }
   .overlay {
     position: fixed;
-    top: 31%;
-    margin-left: 2.5%;
-    size: 300%;
+    margin: 30px 0 0 40px;
     z-index: 2;
-  }
-  .training-path {
-    top: 26%;
   }
 }
 .time {
