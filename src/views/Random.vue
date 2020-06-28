@@ -2,7 +2,7 @@
   <div class="random">
     <v-btn @click="generateTraining(3)" class="b-container">Generate random training</v-btn>
     <v-btn @click="removeTraining">Remove training</v-btn>
-    <BaseTimer v-bind:set="this.training" :key="this.training[0]" />
+    <BaseTimer :key="this.$store.state.training[0]" />
   </div>
 </template>
 
@@ -16,22 +16,29 @@ export default {
     BaseTimer
   },
   data() {
-    return {
-      training: []
-    }
+    return {}
+  },
+  created: function() {
+    this.$store.state.training = []
   },
   methods: {
     generateTraining(nr) {
+      var training = []
       for (var i = 0; i < nr; i++) {
         var time = Math.floor(Math.random() * (6 - 1 + 1) + 1) * 10
-        this.training.push({
+        var exercise = Math.floor(Math.random() * (4 - 0 + 1))
+        if (this.$store.state.options[exercise].name == "Break") {
+          exercise = -1
+        }
+        training.push({
           time: time,
-          title: this.$store.state.options[i].name
+          name: this.$store.state.options[exercise].name
         })
       }
+      this.$store.commit("setTraining", training)
     },
     removeTraining() {
-      this.training = []
+      this.$store.commit("setTraining", [])
     }
   }
 }

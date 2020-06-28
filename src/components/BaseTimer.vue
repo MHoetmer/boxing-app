@@ -2,17 +2,22 @@
   <div>
     <v-app>
       <v-item-group multiple>
-        <v-item v-for="e in set" :key="e.title" v-slot:default="{ active }" class="e-container">
+        <v-item
+          v-for="e in this.$store.state.training"
+          :key="e.name"
+          v-slot:default="{ active }"
+          class="e-container"
+        >
           <v-chip
             @click:close="i => removeExercise(i, e)"
             close
-            color="primary"
+            :color="getClass(e.name)"
             :input-value="active"
             outlined
-            :class="{ active: getClass(e) }"
+            :class="{ active: getCurrentClass(e) }"
           >
             <v-avatar left :class="blue">{{ e.time }}</v-avatar>
-            {{ e.title }}
+            {{ e.name }}
           </v-chip>
         </v-item>
       </v-item-group>
@@ -44,7 +49,7 @@
         </svg>
         <span class="base-timer__label">{{ formattedTimeLeft }}</span>
 
-        <p>{{ this.set[this.currentSet].title }}</p>
+        <p>{{ this.$store.state.training[this.currentSet].name }}</p>
       </div>
     </v-app>
   </div>
@@ -69,24 +74,18 @@ const COLOR_CODES = {
   }
 }
 
-//var TIME_LIMIT = 20
-
 export default {
-  props: ["set"],
   data() {
     return {
       timePassed: 0,
       timerInterval: null,
-      start: 1,
-      currentSet: 0,
-      firstSet: true,
-      secondSet: false,
-      thirdSet: false,
-      fourthSet: false,
-      fifthSet: false
+      start: 1, //decides if button is a play or pause action
+      currentSet: 0 //keeps track of which icon to highlight
     }
   },
-
+  created: function() {
+    console.log("created.BaseTimer", this.$store.state.training)
+  },
   computed: {
     circleDasharray() {
       return `${(this.timeFraction * FULL_DASH_ARRAY).toFixed(0)} 283`
@@ -100,19 +99,27 @@ export default {
       if (seconds < 10) {
         seconds = `0${seconds}`
       }
+      if (
+        seconds < 2 &&
+        this.currentSet == this.$store.state.training.length - 1
+      ) {
+        return `0:00`
+      }
 
       return `${minutes}:${seconds}`
     },
 
     timeLeft() {
-      return this.set[this.currentSet].time - this.timePassed
+      return this.$store.state.training[this.currentSet].time - this.timePassed
     },
 
     timeFraction() {
-      const rawTimeFraction = this.timeLeft / this.set[this.currentSet].time
+      const rawTimeFraction =
+        this.timeLeft / this.$store.state.training[this.currentSet].time
       return (
         rawTimeFraction -
-        (1 / this.set[this.currentSet].time) * (1 - rawTimeFraction)
+        (1 / this.$store.state.training[this.currentSet].time) *
+          (1 - rawTimeFraction)
       )
     },
 
@@ -134,36 +141,28 @@ export default {
       if (newValue === 0) {
         this.onTimesUp()
       }
-    },
-    currentSet(newValue) {
-      if (newValue == 1) {
-        this.firstSet = false
-        this.secondSet = true
-      }
-      if (newValue == 2) {
-        this.secondSet = false
-        this.thirdSet = true
-      }
-      if (newValue == 3) {
-        this.thirdSet = false
-        this.fourthSet = true
-      }
-      if (newValue == 4) {
-        this.fourthSet = false
-        this.fifthSet = true
-      }
     }
   },
   methods: {
     onTimesUp() {
+      this.sleep(300)
       clearInterval(this.timerInterval)
+      this.sleep(300)
       this.start = 3
       this.timePassed = 0
-      this.time = this.set[this.currentSet].time
-      if (this.currentSet < this.set.length) {
+      this.time = this.$store.state.training[this.currentSet].time
+      if (this.currentSet < this.$store.state.training.length) {
         this.currentSet += 1
       }
       this.startTimer()
+    },
+    sleep(milliseconds) {
+      var start = new Date().getTime()
+      for (var i = 0; i < 1e7; i++) {
+        if (new Date().getTime() - start > milliseconds) {
+          break
+        }
+      }
     },
     startTimer() {
       this.start = 2
@@ -178,15 +177,25 @@ export default {
       this.timePassed = 0
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000)
     },
-    getClass(i) {
-      if (this.set[this.currentSet] == i) {
+    getClass(e) {
+      if (e == "Break") {
+        return "grey"
+      } else {
+        return "primary"
+      }
+    },
+    getCurrentClass(i) {
+      if (this.$store.state.training[this.currentSet] == i) {
         return true
       } else {
         return false
       }
     },
     removeExercise(input, e) {
-      this.set.splice(this.set.indexOf(e), 1)
+      this.$store.state.training.splice(
+        this.$store.state.training.indexOf(e),
+        1
+      )
     }
   }
 }
