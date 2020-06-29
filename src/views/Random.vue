@@ -3,7 +3,13 @@
     <v-container :class="`d-flex justify-space-between`">
       <v-col class="options">
         <v-switch v-model="includeCombo" label="Include combo"></v-switch>
-        <v-switch v-model="includeBreak" class="options" label="Include break"></v-switch>
+        <v-tooltip left>
+          <template v-slot:activator="{ on }" fixed>
+            <v-switch v-model="includeBreak" label="Include break" v-on="on"></v-switch>
+          </template>
+          <span v-if="includeBreak">Pussy!</span>
+          <span v-if="!includeBreak">Coward!</span>
+        </v-tooltip>
       </v-col>
       <v-select
         style="max-width:50px"

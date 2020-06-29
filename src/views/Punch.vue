@@ -44,7 +44,38 @@
             <v-icon @click="removeAllSelection" size="95%" class="close_icon">mdi-close</v-icon>
           </v-card-title>
         </v-card>
-        <v-icon class="save_btn" @click="saveSelection">mdi-content-save</v-icon>
+        <v-icon
+          class="save_btn"
+          v-bind="attrs"
+          v-on="on"
+          @click="saveSelection"
+          v-if="selection.length < 5"
+        >mdi-content-save</v-icon>
+        <v-dialog v-model="dialog" width="500" v-if="selection.length > 4">
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              class="save_btn"
+              v-bind="attrs"
+              v-on="on"
+              @click="saveSelection"
+            >mdi-content-save</v-icon>
+          </template>
+          <v-card>
+            <v-card-title class="headline grey lighten-2" primary-title>Level of risk management</v-card-title>
+            <v-card-text>
+              The level of risk management (and paperwork and/or network
+              traffic) for usage of sport apps should be in proportion to the
+              level of risk associated with the activity, BAC (boxing app
+              challenge) Inc. responsibility for incidents or accidents is
+              unlikely to arise in all but the rarest situation.
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="dialog = false">I accept</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-row>
     </v-container>
 
@@ -74,7 +105,8 @@
 export default {
   data() {
     return {
-      selection: []
+      selection: [],
+      dialog: "false"
     }
   },
 
