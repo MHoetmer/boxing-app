@@ -22,8 +22,8 @@
             </router-link>
           </v-tab>
           <v-tab>
-            <router-link class="menu" to="/punches" :key="this.$store.state.training[0]">
-              <a>Punches</a>
+            <router-link class="menu" to="/combo" :key="this.$store.state.training[0]">
+              <a>Combo</a>
             </router-link>
           </v-tab>
         </v-tabs>

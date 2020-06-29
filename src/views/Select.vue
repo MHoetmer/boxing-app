@@ -12,7 +12,7 @@
         </div>
       </span>
       <v-row>
-        <v-item-group multiple class="e-container">
+        <v-item-group multiple class="e-container" style="margin-left:20px">
           <v-subheader>Training</v-subheader>
           <v-item v-for="e in this.$store.state.training" :key="e.name" v-slot:default="{ active }">
             <v-chip
@@ -37,10 +37,13 @@
             </v-chip>
           </v-item>
         </v-item-group>
-
-        <router-link :to="getUrl()" class="start">
-          <v-btn color="orange" @click="startExercise">Start</v-btn>
-        </router-link>
+      </v-row>
+      <v-row>
+        <v-container class="e-container">
+          <router-link :to="getUrl()" class="button start">
+            <v-btn color="orange" @click="startExercise">Start</v-btn>
+          </router-link>
+        </v-container>
       </v-row>
     </v-app>
   </div>
@@ -130,8 +133,6 @@ export default {
 <style scoped lang="scss">
 .e-container {
   align-items: center;
-  justify-content: center;
-  margin-left: 20px;
 }
 
 .e-item {
@@ -143,10 +144,6 @@ export default {
 }
 
 .start {
-  position: fixed;
-  padding-right: 20px;
-  margin-left: 50%;
-  margin-top: 200px;
   text-decoration: none;
 }
 .time {

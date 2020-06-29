@@ -20,23 +20,33 @@
         >{{ o.name }}</v-btn>
       </div>
     </span>
-
-    <v-card outlined class="v_card" max-width="80%" height="60px">
-      <v-card-title>
-        <v-chip v-for="tag in selection" :key="tag.name" close @click:close="remove(tag)">
-          <v-avatar
-            left
-            :class="getTypedClass(e, 1)"
-            @click="i => toggleArm(i, tag)"
-            :key="tag.side"
-          >
-            <span :class="getTypedClass(e, 2)">{{ tag.side }}</span>
-          </v-avatar>
-          <strong>{{ tag.name }}</strong>&nbsp;
-        </v-chip>
-        <v-icon class="save_btn" @click="selectAll">mdi-content-save</v-icon>
-      </v-card-title>
-    </v-card>
+    <v-container>
+      <v-row align="center" justify="center">
+        <v-card outlined class="v_card" max-width="80%" min-width="200px" min-height="52px">
+          <v-card-title class="v_card_title">
+            <v-chip
+              class="ex_chip"
+              v-for="tag in selection"
+              :key="tag.name"
+              close
+              @click:close="removeSelection(tag)"
+            >
+              <v-avatar
+                left
+                :class="getTypedClass(e, 1)"
+                @click="i => toggleArm(i, tag)"
+                :key="tag.side"
+              >
+                <span :class="getTypedClass(e, 2)">{{ tag.side }}</span>
+              </v-avatar>
+              <strong>{{ tag.name }}</strong>
+            </v-chip>
+            <v-icon @click="removeAllSelection" size="95%" class="close_icon">mdi-close</v-icon>
+          </v-card-title>
+        </v-card>
+        <v-icon class="save_btn" @click="saveSelection">mdi-content-save</v-icon>
+      </v-row>
+    </v-container>
 
     <span v-for="o in this.$store.state.combos" :key="o.name">
       <div>
@@ -45,14 +55,14 @@
           <v-btn
             @click="i => removeCombo(i, o)"
             flat
-            width="20px"
-            height="20px"
-            style="margin-right:-7px; margin-left:5px"
-            color="grey"
+            width="16px"
+            height="16px"
+            class="close_btn"
+            color="rgb(256,256,256,0.3)"
             fab
             dark
           >
-            <v-icon size="95%" color="black">mdi-close</v-icon>
+            <v-icon size="16" color="secondary">mdi-close</v-icon>
           </v-btn>
         </v-btn>
       </div>
@@ -64,17 +74,12 @@
 export default {
   data() {
     return {
-      selection: [],
-      combo: [],
-      items: ["Streaming", "Eating"]
+      selection: []
     }
-  },
-  created: function() {
-    //this.chips = this.$store.state.training
   },
 
   methods: {
-    remove(item) {
+    removeSelection(item) {
       this.selection.splice(this.selection.indexOf(item), 1)
       this.selection = [...this.selection]
     },
@@ -82,12 +87,13 @@ export default {
       for (var e in this.$store.state.combos) {
         if (this.$store.state.combos[e] == o) {
           this.$store.state.combos.splice(e, 1)
-          console.log("rm", this.$store.state.combos)
         }
       }
-      console.log("removeCombo", i, o)
     },
-    selectAll() {
+    removeAllSelection() {
+      this.selection = []
+    },
+    saveSelection() {
       var stringert = this.selection[0].side + ":" + this.selection[0].name
       for (var e in this.selection) {
         if (e > 0) {
@@ -99,10 +105,6 @@ export default {
             this.selection[e].name.toString()
         }
       }
-
-      console.log("selectAll", this.selection, stringert)
-      //this.combo.push({ name: stringert })
-      //var latestid = this.$store.state.options[this.$store.state.options.lengt - 1].id
       this.$store.state.combos.push({ name: stringert })
     },
     getTypedClass(i, type) {
@@ -134,7 +136,6 @@ export default {
       this.selection.push({ name: o.name, side: "L" })
     },
     toggleArm(i, o) {
-      console.log("toggleArm", i, o)
       for (var e in this.selection) {
         if (this.selection[e] == o) {
           if (o.side == "L") {
@@ -155,13 +156,31 @@ export default {
 }
 
 .v_card {
+  margin: 10px;
   margin-left: 20px;
   margin-right: 20px;
   justify-content: center;
+  padding-right: 30px;
+}
+
+.v_card_title {
+  margin: -10px;
 }
 .save_btn {
-  margin-left: 80%;
-  position: fixed;
-  margin-top: -5%;
+  margin-left: -8px;
+}
+
+.close_btn {
+  margin-right: -7px;
+  margin-left: 5px;
+}
+
+.ex_chip {
+  margin: 3px;
+}
+.close_icon {
+  position: absolute;
+  right: 10px;
+  top: 30%;
 }
 </style>
