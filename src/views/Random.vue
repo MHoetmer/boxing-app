@@ -2,7 +2,12 @@
   <div class="random">
     <v-container :class="`d-flex justify-space-between`">
       <v-col class="options">
-        <v-switch v-model="includeCombo" label="Include combo"></v-switch>
+        <v-tooltip left>
+          <template v-slot:activator="{ on }" fixed>
+            <v-switch v-model="includeCombo" label="Include combo" v-on="on"></v-switch>
+          </template>
+          <span>Create under tab 'Combo'</span>
+        </v-tooltip>
         <v-tooltip left>
           <template v-slot:activator="{ on }" fixed>
             <v-switch v-model="includeBreak" label="Include break" v-on="on"></v-switch>

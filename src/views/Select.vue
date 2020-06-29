@@ -15,26 +15,32 @@
         <v-item-group multiple class="e-container" style="margin-left:20px">
           <v-subheader>Training</v-subheader>
           <v-item v-for="e in this.$store.state.training" :key="e.name" v-slot:default="{ active }">
-            <v-chip
-              :text-color="getClass(e)"
-              :input-value="active"
-              close
-              v-bind:class="getClass(e)"
-              outlined
-              @click:close="i => removeExercise(i, e)"
-            >
-              <v-avatar left :class="getClass(e)">
-                <v-select
-                  class="time"
-                  :items="$store.state.times"
-                  chips
-                  :label="e.time"
-                  @input="i => addTime(i, e)"
-                  :key="e.time"
-                ></v-select>
-              </v-avatar>
-              {{ e.name }}
-            </v-chip>
+            <v-tooltip left>
+              <template v-slot:activator="{ on }" fixed>
+                <v-chip
+                  v-on="on"
+                  :text-color="getClass(e)"
+                  :input-value="active"
+                  close
+                  v-bind:class="getClass(e)"
+                  outlined
+                  @click:close="i => removeExercise(i, e)"
+                >
+                  <v-avatar left :class="getClass(e)">
+                    <v-select
+                      class="time"
+                      :items="$store.state.times"
+                      chips
+                      :label="e.time"
+                      @input="i => addTime(i, e)"
+                      :key="e.time"
+                    ></v-select>
+                  </v-avatar>
+                  {{ e.name }}
+                </v-chip>
+              </template>
+              <span>Pick interval</span>
+            </v-tooltip>
           </v-item>
         </v-item-group>
       </v-row>

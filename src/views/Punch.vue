@@ -37,7 +37,12 @@
                 @click="i => toggleArm(i, tag)"
                 :key="tag.side"
               >
-                <span :class="getTypedClass(e, 2)">{{ tag.side }}</span>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }" fixed>
+                    <span v-on="on" :class="getTypedClass(e, 2)">{{ tag.side }}</span>
+                  </template>
+                  <span>Toggle arm</span>
+                </v-tooltip>
               </v-avatar>
               <strong>{{ tag.name }}</strong>
             </v-chip>
