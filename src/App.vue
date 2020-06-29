@@ -21,6 +21,11 @@
               <a>Select</a>
             </router-link>
           </v-tab>
+          <v-tab>
+            <router-link class="menu" to="/punches" :key="this.$store.state.training[0]">
+              <a>Punches</a>
+            </router-link>
+          </v-tab>
         </v-tabs>
       </v-card>
 

@@ -6,6 +6,11 @@
           <v-btn @click="i => addExercise(i, o)" color="primary" class="button">{{ o.name }}</v-btn>
         </div>
       </span>
+      <span v-for="o in this.$store.state.combos" :key="o.name">
+        <div>
+          <v-btn @click="i => addExercise(i, o)" color="secondary" class="button">{{ o.name }}</v-btn>
+        </div>
+      </span>
       <v-row>
         <v-item-group multiple class="e-container">
           <v-subheader>Training</v-subheader>
