@@ -12,6 +12,11 @@
           class="elevation-0"
         >
           <v-tab>
+            <router-link class="menu" to="/">
+              <a>Home</a>
+            </router-link>&nbsp;
+          </v-tab>
+          <v-tab>
             <router-link class="menu" to="/random">
               <a>Random</a>
             </router-link>&nbsp;
@@ -21,17 +26,41 @@
               <a>Select</a>
             </router-link>
           </v-tab>
+          <v-tab>
+            <router-link class="menu" to="/combo" :key="this.$store.state.training[0]">
+              <a>Combo</a>
+            </router-link>
+          </v-tab>
         </v-tabs>
       </v-card>
 
       <router-view />
+      <v-footer absolute>
+        <v-spacer></v-spacer>
+        <a>
+          &copy; Boxing App Challenge Incorporation
+          {{ new Date().getFullYear() }}
+        </a>
+      </v-footer>
     </div>
   </v-app>
 </template>
 
 <style>
+@font-face {
+  font-family: "Bosk";
+  src: url("/Users/mel/Projects/javascript/timer/boxing-app/public/font/Bosk.ttf");
+}
+
+@font-face {
+  font-family: "Bungee Shade";
+  src: url("https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap");
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap");
+@import url("/Users/mel/Projects/javascript/timer/boxing-app/public/font/Bosk.ttf");
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Roboto, Playfair, Raleway, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

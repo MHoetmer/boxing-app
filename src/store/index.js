@@ -13,7 +13,8 @@ export default new Vuex.Store({
       { name: "Break", id: 4 }
     ],
     times: [30, 60, 90],
-    training: []
+    training: [],
+    combos: []
   },
   mutations: {
     addTraining(state, ex) {
