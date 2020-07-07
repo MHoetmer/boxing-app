@@ -23,7 +23,6 @@
           </v-chip>
         </v-item>
       </v-item-group>
-
       <div class="base-timer container">
         <div :class="classObject">
           <button v-if="start == 1" v-on:click="startTimer">
@@ -33,7 +32,11 @@
             <v-icon size="200">mdi-pause</v-icon>
           </button>
         </div>
-        <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          class="base-timer__svg"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <g class="base-timer__circle">
             <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
             <path
@@ -52,6 +55,7 @@
         <span class="base-timer__label">{{ formattedTimeLeft }}</span>
 
         <p>{{ this.$store.state.training[this.currentSet].name }}</p>
+        <v-btn @click="restart">RESTART</v-btn>
       </div>
     </v-app>
   </div>
@@ -225,6 +229,12 @@ export default {
         this.$store.state.training.indexOf(e),
         1
       )
+    },
+    restart() {
+      this.currentSet = 0
+      this.timePassed = 0
+      this.start = 1
+      clearInterval(this.timerInterval)
     }
   }
 }
