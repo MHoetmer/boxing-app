@@ -12,21 +12,19 @@
           class="elevation-0"
         >
           <v-tab>
-            <router-link class="menu" to="/"> <a>Home</a> </router-link
-            >&nbsp; </v-tab
-          >\
+            <router-link class="menu" to="/">
+              <a>Home</a>
+            </router-link>&nbsp;
+          </v-tab>
           <v-tab>
-            <router-link
-              class="menu"
-              to="/combo"
-              :key="this.$store.state.training[0]"
-            >
+            <router-link class="menu" to="/combo" :key="this.$store.state.training[0]">
               <a>Combo</a>
             </router-link>
           </v-tab>
           <v-tab>
-            <router-link class="menu" to="/random"> <a>Random</a> </router-link
-            >&nbsp;
+            <router-link class="menu" to="/random">
+              <a>Random</a>
+            </router-link>&nbsp;
           </v-tab>
           <v-tab>
             <router-link class="menu" to="/select/030">
